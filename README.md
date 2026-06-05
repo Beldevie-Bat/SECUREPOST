@@ -48,7 +48,7 @@ les statistiques(nombre de plaintes ,evolution de la criminalité)...
 
 ## structure du projet
 
-
+```text
 SECUREPOST/
 │
 ├── backend/
