@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page de connexion sécurisée à SecurePost - Système de numérisation de main courante du Commissariat de Pointe-Noire. Accès réservé aux forces de l'ordre.">
+    <title>SecurePost - Connexion</title>
+    <link rel="stylesheet" href="../CSS/variable.css">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    
+
+    <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Changer de thème">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+    </button>
+
+    <div class="container">
+        <div class="main-box">
+
+
+            <div class="login-side">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <img src="../assets/images/LOGO.png" alt="Logo SecurePost">
+                        <h1 class="login-logo-name">SecurePost</h1>
+                    </div>
+                </div>
+
+                <form id="login-form" action="index.html" method="post" novalidate>
+                    
+
+                    <div class="input-box" id="agent-box">
+                        <label for="Agentname">Nom de l'Agent</label>
+                        <div class="input-field">
+                            <input type="text" id="Agentname" name="Agentname" placeholder="Nom de l'agent" autocomplete="username">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </div>
+                        <span class="error-message">Veuillez renseigner le nom de l'agent.</span>
+                    </div>
+
+                    
+
+                    <div class="input-box" id="matricule-box">
+                        <label for="matricule">Matricule</label>
+                        <div class="input-field">
+                            <input type="text" id="matricule" name="matricule" placeholder="ex: PN-2026-044" autocomplete="off">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <span class="error-message">Le matricule doit respecter le format PN-AAAA-XXX.</span>
+                    </div>
+
+                    
+
+                    
+                    <div class="input-box" id="password-box">
+                        <label for="password">Mot de passe</label>
+                        <div class="input-field">
+                            <input type="password" id="password" name="password" placeholder="Mot de passe" autocomplete="current-password">
+                            <i class="fa-solid fa-eye-slash" id="toggle-password" style="cursor: pointer; pointer-events: all;"></i>
+                        </div>
+                        <span class="error-message">Le mot de passe doit comporter au moins 4 caractères.</span>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <a href="#">Mot de passe oublié ?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Se Connecter</button>
+                </form>
+
+                <div class="login-footer">
+                    Commissariat de Pointe-Noire - Accès réservé aux forces de l'ordre
+                </div>
+            </div>
+
+            <!-- l'autre cote et carousel -->
+            <div class="welcome-side">
+                <div class="welcome-overlay"></div>
+                <div class="welcome-content">
+                    <h2>Welcome To <br><span>SecurePost</span></h2>
+                    <p class="station-title"> Gestion du Commissariat et numérisation des données sur Pointe-Noire </p>
+
+
+
+
+                    <hr class="separation">
+
+                    
+
+
+                    <div class="image-slider">
+                        <div class="slide-track">
+                            <div class="slide"><img src="../assets/images/1.jpg" alt=" slide 1"></div>
+                            <div class="slide"><img src="../assets/images/2.jpg" alt=" slide 2"></div>
+                            <div class="slide"><img src="../assets/images/3.jpg" alt=" slide 3"></div>
+                            <div class="slide"><img src="../assets/images/4.jpg" alt=" 4"></div>
+
+                            <!-- repetition des iimages-->
+
+                            <div class="slide"><img src="../assets/images/1.jpg" alt=" 1 clone"></div>
+                            <div class="slide"><img src="../assets/images/2.jpg" alt=" 2 clone"></div>
+                            <div class="slide"><img src="../assets/images/3.jpg" alt=" 3 clone"></div>
+                            <div class="slide"><img src="../assets/images/4.jpg" alt=" 4 clone"></div>
+                        </div>
+                    </div>
+
+                    <hr class="separation">
+
+                    
+                </div>
+
+                <div class="carousel-footer">
+                    République du Congo,pointe-noire,2026
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    <script src="../SCRIPT/darkmode.js"></script>
+    <script src="../SCRIPT/auth.js"></script>
+</body>
+</html>
