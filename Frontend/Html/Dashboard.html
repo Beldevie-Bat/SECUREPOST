@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePost - Tableau de Bord</title>
+    <link rel="stylesheet" href="../CSS/variable.css">
+    <link rel="stylesheet" href="../CSS/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/images/LOGO.png" alt="Logo SecurePost" class="logo-img">
+                <div>
+                    <h2>SECUREPOST</h2>
+                    <span>Pointe-Noire</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+
+                <!--vue d'ensemble-->
+                <button data-target="overview" class="menu-btn active">
+                    <i class="fa-solid fa-chart-pie"></i> Vue d'ensemble
+                </button>
+
+                 <!--actes-->
+
+                <button data-target="acts" class="menu-btn">
+                    <i class="fa-solid fa-folder-open"></i> Registre des Actes
+                </button>
+
+
+                <!--audts-->
+                <button data-target="audit" class="menu-btn">
+                    <i class="fa-solid fa-user-shield"></i>Journal d'Audit
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="window.location.href='index.html'">
+                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+                </button>
+                <p>BSU - Permanence</p>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            
+            <header class="top-navbar">
+                <div class="service-title">Brigade de Sûreté Urbaine</div>
+                <div class="user-profile">
+                    
+
+                    <button id="theme-toggle" class="theme-btn" type="button">
+                        <i class="fa-solid fa-sun" id="theme-icon"></i>
+                    </button>
+
+
+                    <div class="user-info">
+                        <span class="user-name">BATANTOU Messie</span>
+                        <span class="user-role">PN-2026-044</span>
+                    </div>
+                    <div class="avatar">BM</div>
+                </div>
+            </header>
+
+
+
+            <main class="content-body">
+
+                <div id="overview" class="tab-section">
+                    <h3>Vue d'ensemble de la Garde</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Plaintes (24h)</h4>
+                            <p class="stat-number">12</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Mains Courantes (24h)</h4>
+                            <p class="stat-number">18</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="acts" class="tab-section hidden">
+                    <div class="section-header">
+                        <h3>Registre Numérique des Actes</h3>
+                        <button class="add-btn">Nouvel Acte</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N° Acte</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Quartier</th>
+                                    <th>Priorité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="acte-id">PN-2026-001</td>
+                                    <td><span class="badge badge-plainte">Plainte</span></td>
+                                    <td>Vol à main armée au Grand Marché.</td>
+                                    <td>Tié-Tié</td>
+                                    <td><button class="star-btn active">★</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="acte-id">PN-2026-002</td>
+                                    <td><span class="badge badge-mc">Main Courante</span></td>
+                                    <td>Nuisances sonores église de réveil.</td>
+                                    <td>Mpaka</td>
+                                    <td><button class="star-btn">★</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="audit" class="tab-section hidden">
+                    <h3>Journal de Traçabilité (Audit Logs)</h3>
+                    <div class="logs-box">
+                        <div class="log-line green">
+                            <strong>[10/06/2026 14:22]</strong> - L'officier BATANTOU M. a créé la plainte N° PN-2026-001.
+                        </div>
+                        <div class="log-line blue">
+                            <strong>[10/06/2026 15:05]</strong> - L'officier BATANTOU M. a consulté le registre de Tié-Tié.
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+
+
+
+<!--formulaire nouvel acte-->
+    
+
+
+    <div id="acte-modal" class="modal hidden">
+        <div class="modal-content">
+
+            
+            <div class="modal-header">
+                <h3>Enregistrer un Nouvel Acte</h3>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+
+
+            
+            <form id="acte-form">
+                <div class="form-group">
+                    <label for="type-acte">Type d'acte métiers</label>
+                    <select id="type-acte" required>
+                        <option value="Plainte">Plainte (Infraction pénale)</option>
+                        <option value="Main Courante">Main Courante (Fait simple)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quartier-acte">Quartier (Pointe-Noire)</label>
+                    <select id="quartier-acte" required>
+                        <option value="Tié-Tié">Tié-Tié</option>
+                        <option value="Mpaka">Mpaka</option>
+                        <option value="Lumumba">Lumumba</option>
+                        <option value="Centre-ville">Centre-ville</option>
+                        <option value="Grand Marché">Grand Marché</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="desc-acte">Description des Faits</label>
+                    <textarea id="desc-acte" rows="4" placeholder="Détaillez les faits constatés..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-form-btn">Inscrire au Registre</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../SCRIPT/darkmode.js"></script>
+    <script src="../SCRIPT/dash.js"></script>
+</body>
+</html>
