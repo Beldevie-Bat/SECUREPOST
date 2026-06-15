@@ -1,5 +1,5 @@
 
-TRUNCATE TABLE audit_logs, proces_verbaux, main_courantes, plaintes, actes, individus, users, workspaces, public.commissariats, public.grades RESTART IDENTITY CASCADE;
+TRUNCATE TABLE audit_logs, proces_verbaux, main_courantes, plaintes, actes, enquetes, individus, users, workspaces, public.commissariats, public.grades RESTART IDENTITY CASCADE;
 
 
 INSERT INTO public.grades (libelle) VALUES 
