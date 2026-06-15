@@ -113,22 +113,25 @@
                                     <th>Description</th>
                                     <th>Quartier</th>
                                     <th>Priorité</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableau-actes-body">
                                 <tr>
                                     <td class="acte-id">PN-2026-001</td>
                                     <td><span class="badge badge-plainte">Plainte</span></td>
                                     <td>Vol à main armée au Grand Marché.</td>
                                     <td>Tié-Tié</td>
-                                    <td><button class="star-btn active">★</button></td>
+                                    <td><button class="star-btn active" title="Prioritaire">★</button></td>
+                                    <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                                 <tr>
                                     <td class="acte-id">PN-2026-002</td>
                                     <td><span class="badge badge-mc">Main Courante</span></td>
                                     <td>Nuisances sonores église de réveil.</td>
                                     <td>Mpaka</td>
-                                    <td><button class="star-btn">★</button></td>
+                                    <td><button class="star-btn" title="Non prioritaire">★</button></td>
+                                    <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -195,6 +198,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="urgence-acte">Niveau d'urgence</label>
+                    <select id="urgence-acte">
+                        <option value="Faible">Faible</option>
+                        <option value="Moyenne">Moyenne</option>
+                        <option value="Haute">Haute</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="desc-acte">Description des Faits</label>
                     <textarea id="desc-acte" rows="4" placeholder="Détaillez les faits constatés..." required></textarea>
                 </div>
@@ -205,6 +217,26 @@
             </form>
         </div>
     </div>
+
+<!-- popup de confirmation pour supprimer -->
+    <div id="confirm-delete-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmer la suppression</h3>
+                <button id="close-confirm-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <p>Êtes-vous sûr de vouloir supprimer cet acte ? Cette action est irréversible.</p>
+            <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button type="button" id="cancel-delete-btn" class="add-btn" style="background-color: var(--sp-text-secondary); color: white;">Annuler</button>
+                <button type="button" id="confirm-delete-btn" class="submit-form-btn" style="background-color: var(--sp-red-400);">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

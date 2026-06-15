@@ -313,6 +313,15 @@ td {
     color: #fbbf24;
 }
 
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--sp-red-400); 
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
 /* JOURNAL D'AUDIT */
 .logs-box {
     border: 1px solid var(--sp-border);
@@ -457,3 +466,23 @@ body {
 .submit-form-btn:hover {
     background-color: var(--sp-blue-800);
 }
+
+
+
+
+/*novel actes*/
+
+
+@keyframes flashNouveau {
+    0% { background-color: rgba(46, 204, 113, 0.3); } /* Vert transparent */
+    100% { background-color: transparent; }
+}
+
+.nouvelle-ligne-animation {
+    animation: flashNouveau 2s ease-out;
+}
+
+
+.badge-urgence.haute { color: #e74c3c; font-weight: bold; }
+.badge-urgence.moyenne { color: #f1c40f; font-weight: bold; }
+.badge-urgence.faible { color: #2ecc71; font-weight: bold; }

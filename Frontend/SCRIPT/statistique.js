@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Graphique 1 -acte par quartier en CAMEMBER ---
+    // Graphique 1 -acte par quartier en CAMEMBER 
     const ctxQuartiers = document.getElementById('infractionsChart').getContext('2d');
     const infractionsChart = new Chart(ctxQuartiers, {
         type: 'pie',
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // --- Graphique2-LES URGENCES en BARRES ---
+    // Graphique2-les urgences en bare en BARRES 
     const ctxUrgences = document.getElementById('urgencesChart').getContext('2d');
     const urgencesChart = new Chart(ctxUrgences, {
         type: 'bar', 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- le theme---
+    // le theme
     const boutonTheme = document.getElementById('theme-toggle');
     if (boutonTheme) {
         boutonTheme.addEventListener('click', () => {
