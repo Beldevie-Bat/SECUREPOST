@@ -43,7 +43,7 @@
 
             <div class="sidebar-footer">
                 <button class="logout-btn" onclick="window.location.href='index.html'">
-                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+                     Déconnexion
                 </button>
                 <p>BSU - Permanence</p>
             </div>
@@ -84,6 +84,11 @@
                             <h4>Mains Courantes (24h)</h4>
                             <p class="stat-number">18</p>
                         </div>
+                    </div>
+
+                    <div class="stats-container">
+                        <h3>Répartition des Actes par Quartier</h3>
+                        <canvas id="infractionsChart"></canvas>
                     </div>
                 </div>
 
@@ -189,6 +194,10 @@
             </form>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../SCRIPT/statistique.js"></script>
 
     <script src="../SCRIPT/darkmode.js"></script>
     <script src="../SCRIPT/dash.js"></script>
