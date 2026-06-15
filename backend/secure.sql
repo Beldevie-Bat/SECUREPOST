@@ -1,4 +1,4 @@
--- Table: public.commissariats
+
 CREATE TABLE IF NOT EXISTS public.commissariats
 (
     id_commissariat SERIAL PRIMARY KEY,
@@ -7,14 +7,14 @@ CREATE TABLE IF NOT EXISTS public.commissariats
     telephone character varying(20)
 );
 
--- Table: public.grades (On la déplace ICI pour qu'elle soit créée AVANT users)
+
 CREATE TABLE IF NOT EXISTS public.grades
 (
     id_grade SERIAL PRIMARY KEY,
     libelle character varying(100) NOT NULL
 );
 
--- Table: public.workspaces
+
 CREATE TABLE IF NOT EXISTS public.workspaces
 (
     id_workspace SERIAL PRIMARY KEY,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.workspaces
     type_brigade character varying
 );
 
--- Table: public.users
+
 CREATE TABLE IF NOT EXISTS public.users
 (
     id_user SERIAL PRIMARY KEY,
@@ -72,7 +72,7 @@ CREATE TABLE plaintes (
 
 
 
--- Table: public.garde_a_vue
+
 
 -- DROP TABLE IF EXISTS public.garde_a_vue;
 
@@ -154,7 +154,7 @@ CREATE TABLE audit_logs (
 
 
 
--- Table: public.enquête 
+ 
 
 -- DROP TABLE IF EXISTS public."enquête ";
 

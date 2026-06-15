@@ -63,3 +63,35 @@ if __name__ == "__main__":
     print("Test de la connexion...")
     test = executer_requete("SELECT * FROM public.grades LIMIT 1;", fetch=True)
     print("Résultat du test :", test)
+    
+
+# pour la recuperation des actes
+def recuperer_tous_les_actes():
+    """
+    Va chercher tous les actes enregistrés dans la base de données,
+    triés du plus récent au plus ancien.
+    """
+    sql = """
+        SELECT numero_acte, type_acte, description, date_faits, quartier, urgence, statut 
+        FROM public.actes 
+        ORDER BY date_faits DESC;
+    """
+    return executer_requete(sql, fetch=True)
+
+
+
+
+
+if __name__ == "__main__":
+    print("--- TEST : Récupération des données du Commissariat ---")
+    
+    
+    liste_actes = recuperer_tous_les_actes()
+    
+    print(f"\nNombre d'actes trouvés : {len(liste_actes) if liste_actes else 0}")
+    print("Détails des actes en base de données :")
+    if liste_actes:
+        for acte in liste_actes:
+            print(f"- [{acte['numero_acte']}] {acte['type_acte']} à {acte['quartier']} (Urgence: {acte['urgence']})")
+    else:
+        print("Aucun acte trouvé. Si tu as vidé ta base, réexécute ton fichier seed.sql avant.")
