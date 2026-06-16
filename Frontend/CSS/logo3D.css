@@ -1,0 +1,44 @@
+:root {
+  --duration: 10s; 
+}
+
+@keyframes spin-Y {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+@keyframes spin-X {
+  from { transform: rotateX(0deg); }
+  to   { transform: rotateX(360deg); }
+}
+
+@keyframes spin-Z {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
+}
+
+.logo-wrapper {
+  perspective: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-wrapper img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(10, 40, 120, 0.5));
+}
+
+.spin-Y {
+  animation: spin-Y var(--duration, 4s) linear infinite;
+}
+
+.spin-X {
+  animation: spin-X var(--duration, 4s) linear infinite;
+}
+
+.spin-Z {
+  animation: spin-Z var(--duration, 4s) linear infinite;
+}

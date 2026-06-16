@@ -1,13 +1,35 @@
 
 body {
     display: flex;
+    font-family: var(--sp-font);
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-color: #0b1a30;
     position: relative;
     overflow: hidden;
-    margin: 0;
+    
+}
+
+
+
+#background-video{
+    position: fixed;
+    inset:0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+   z-index: 0;
+
+}
+
+.video-overlay{
+    position:fixed;
+    inset:0;
+    z-index: 1;
+     background: rgba(4, 20, 40, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 
@@ -16,9 +38,9 @@ body {
     width: 900px;
     height: 600px;
     z-index: 1;
-    border-radius: 16px; 
+    border-radius: var(--sp-radius); 
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--sp-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,6 +61,7 @@ body {
     border-radius: 16px;
     animation: rotate-glow 8s linear infinite;
     z-index: 0;
+    pointer-events: none;
 }
 
 .container::before {
@@ -115,6 +138,15 @@ body {
     letter-spacing: 0.5px;
 }
 
+
+.login-header h2{
+    font-size: 24px;
+    font-weight: 700;
+    color:var(--login-text);
+    letter-spacing: -0.02em;
+    transition: color var(--sp-transition);
+}
+
 /*  bouton mode sombre  */
 .theme-toggle-btn {
     position: absolute;
@@ -139,15 +171,44 @@ body {
 
 /* Partie droite : Message de bienvenue et slider */
 .welcome-side {
-    flex: 1.1;
+    flex: 1;
     position: relative;
-    background: linear-gradient(135deg, #042C53 0%, #0C447C 100%);
+    background: linear-gradient(145deg,
+    var(--sp-blue-800)0%,
+    var(--sp-blue-600)50%,
+    var(--sp-blue-400)100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 20px 30px;
     color: #FFFFFF;
     overflow: hidden;
+}
+
+
+
+.circle-top {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -50px;
+    right: -50px;
+    pointer-events: none;
+}
+
+
+
+.circle-bottom {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -40px;
+    left: -40px;
+    pointer-events: none;
 }
 
 .welcome-overlay {
@@ -159,14 +220,21 @@ body {
 
 .welcome-content {
     position: relative;
-    z-index: 2;
-    width: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    gap: 5px;
 }
 
 .welcome-content h2 {
-    font-size: 32px;
-    font-weight: 300;
+    font-size: 20px;
+    font-weight: 30px;
     line-height: 1.2;
     margin-bottom: 10px;
 }
@@ -174,79 +242,100 @@ body {
 .welcome-content h2 span {
     font-weight: 700;
     color: var(--sp-blue-100);
-    letter-spacing: 1px;
+    
 }
 
 .station-title {
-    font-size: 13px;
+    font-size: 11px;
     color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
+
+.logo3D{
+  margin-top: 20px;
+  
+}
+
+
+
+
 
 /* Slider d'images */
 .image-slider {
     width: 100%;
-    max-width: 520px;
+    max-width: 440px;
     margin: 0 auto;
-    height: 180px; 
+    height: 200px; 
     overflow: hidden;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
     position: relative;
 }
 
 .slide-track {
     display: flex;
-    width: calc(320px * 8); 
+    width: calc(180px * 8); 
+    align-items: center;
+    height: 100%;
     animation: scrollSlider 20s linear infinite;
 }
 
 .slide {
-    width: 320px;
-    height: 180px;
-    flex-shrink: 0;
+    width: 180px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .slide img {
-    width: 100%;
-    height: 100%;
+    width: 160px;
+    height: 140px;
     object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 
-.separation{
+.separation {
     border: none;
-    height: 1px;
-    background-color: #ffffff;
-    opacity: 0.3;
-    margin: 40px 0;
-    width: 140%;
+    border-top: rgb(255, 255, 255) 2px solid;
+    width: 80%;
+    margin: 15px 0;
+
 }
 
 .carousel-footer {
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-top: 25px;
-    font-size: 11px;
-    color: #888888;
+    margin-top: 10px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em;
 }
 
 @keyframes scrollSlider {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-320px * 4)); }
+    0% { 
+        transform: translateX(0);
+    }
+
+    100% { 
+        transform: translateX(calc(-180px * 4));
+    }
 }
 
 
 .input-box {
     width: 100%;
     margin-bottom: 18px;
+    gap: 0.4em;
+    flex-direction: column;
 }
-
 .input-box label {
     display: block;
     font-size: 12px;
@@ -301,7 +390,7 @@ body {
     color: #A0AEC0;
 }
 
-/* Gestion des affichages d'erreurs Ajouté per le  JS */
+
 .input-box.error input {
     border-color: var(--sp-red-400);
     box-shadow: 0 0 0 4px rgba(226, 75, 74, 0.15);
@@ -355,10 +444,12 @@ body {
 }
 
 .login-footer {
+    font-size: 0.7rem;
+    color: var(--login-footer);
     text-align: center;
-    margin-top: 25px;
-    font-size: 11px;
-    color: var(--sp-text-secondary);
+    margin-top: auto;
+    padding-top: 0.8rem;
+    transition: color var(--sp-transition);
 }
 
 
@@ -377,7 +468,7 @@ body {
     }
 
     .welcome-side {
-        display: none; /* Cache la partie droite sur téléphone */
+        display: none; 
     }
 
     .login-side {

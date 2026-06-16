@@ -8,9 +8,13 @@
     <link rel="stylesheet" href="../CSS/variable.css">
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../assets/images/LOGO.png">
+    <link rel="stylesheet" href="../CSS/logo3D.css">
 </head>
 <body>
-    
+
+    <video id="background-video" autoplay muted loop playsinline src="../assets/videos/body.mp4"></video>
+    <div class="video-overlay"></div>
 
     <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Changer de thème">
         <i class="fa-solid fa-moon" id="theme-icon"></i>
@@ -26,9 +30,10 @@
                         <img src="../assets/images/LOGO.png" alt="Logo SecurePost">
                         <h1 class="login-logo-name">SecurePost</h1>
                     </div>
+                    <h2> connexion</h2>
                 </div>
 
-                <form id="login-form" action="index.html" method="post" novalidate>
+                <form id="login-form" action="/api/login" method="post" novalidate>
                     
 
                     <div class="input-box" id="agent-box">
@@ -75,14 +80,24 @@
                 </div>
             </div>
 
-            <!-- l'autre cote et carousel -->
+
+        
             <div class="welcome-side">
-                <div class="welcome-overlay"></div>
+                <div class="circle-top"></div>
+                <div class="circle-bottom"></div>
+
+                
                 <div class="welcome-content">
                     <h2>Welcome To <br><span>SecurePost</span></h2>
                     <p class="station-title"> Gestion du Commissariat et numérisation des données sur Pointe-Noire </p>
 
+                     
 
+                    <div class="logo3D">
+                        <div class="logo-wrapper spin-Y" id="logoEl">
+                            <img src="../assets/images/LOGO.png" alt="Logo SecurePost">
+                        </div>
+                    </div>
 
 
                     <hr class="separation">
@@ -106,14 +121,13 @@
                         </div>
                     </div>
 
-                    <hr class="separation">
+                    <div class="carousel-footer">
+                        République du Congo, Pointe-Noire-2026
+                    </div>
 
                     
                 </div>
 
-                <div class="carousel-footer">
-                    République du Congo,pointe-noire,2026
-                </div>
             </div>
         </div>
     </div>
