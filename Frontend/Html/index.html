@@ -6,8 +6,8 @@
     <meta name="description" content="Page de connexion sécurisée à SecurePost - Système de numérisation de main courante du Commissariat de Pointe-Noire. Accès réservé aux forces de l'ordre.">
     <title>SecurePost - Connexion</title>
     <link rel="stylesheet" href="../CSS/variable.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flowbite@2.3.0/dist/flowbite.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../assets/images/LOGO.png">
     <link rel="stylesheet" href="../CSS/logo3D.css">
 </head>
@@ -17,7 +17,11 @@
     <div class="video-overlay"></div>
 
     <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Changer de thème">
-        <i class="fa-solid fa-moon" id="theme-icon"></i>
+        <span id="theme-icon">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+            </svg>
+        </span>
     </button>
 
     <div class="container">
@@ -30,50 +34,117 @@
                         <img src="../assets/images/LOGO.png" alt="Logo SecurePost">
                         <h1 class="login-logo-name">SecurePost</h1>
                     </div>
-                    <h2> connexion</h2>
+                    <h2>Connexion</h2>
                 </div>
 
                 <form id="login-form" action="/api/login" method="post" novalidate>
-                    
-
                     <div class="input-box" id="agent-box">
                         <label for="Agentname">Nom de l'Agent</label>
                         <div class="input-field">
                             <input type="text" id="Agentname" name="Agentname" placeholder="Nom de l'agent" autocomplete="username">
-                            <i class="fa-solid fa-circle-user"></i>
+                            <span class="input-icon">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4 20.25a8 8 0 0 1 16 0"></path>
+                                </svg>
+                            </span>
                         </div>
                         <span class="error-message">Veuillez renseigner le nom de l'agent.</span>
                     </div>
-
-                    
 
                     <div class="input-box" id="matricule-box">
                         <label for="matricule">Matricule</label>
                         <div class="input-field">
                             <input type="text" id="matricule" name="matricule" placeholder="ex: PN-2026-044" autocomplete="off">
-                            <i class="fa-solid fa-id-card"></i>
+                            <span class="input-icon">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 9h16"></path>
+                                </svg>
+                            </span>
                         </div>
                         <span class="error-message">Le matricule doit respecter le format PN-AAAA-XXX.</span>
                     </div>
 
-                    
-
-                    
                     <div class="input-box" id="password-box">
                         <label for="password">Mot de passe</label>
                         <div class="input-field">
                             <input type="password" id="password" name="password" placeholder="Mot de passe" autocomplete="current-password">
-                            <i class="fa-solid fa-eye-slash" id="toggle-password" style="cursor: pointer; pointer-events: all;"></i>
+                            <button type="button" class="toggle-password-btn" id="toggle-password" aria-label="Afficher le mot de passe">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12S5.25 5.25 12 5.25 21.75 12 21.75 12 18.75 18.75 12 18.75 2.25 12 2.25 12Z"></path>
+                                    <circle cx="12" cy="12" r="2.5"></circle>
+                                </svg>
+                            </button>
                         </div>
                         <span class="error-message">Le mot de passe doit comporter au moins 4 caractères.</span>
                     </div>
 
                     <div class="remember-forgot">
-                        <a href="#">Mot de passe oublié ?</a>
+                        <a href="#" id="forgotpassword">Mot de passe oublié ?</a>
                     </div>
 
                     <button type="submit" class="login-btn">Se Connecter</button>
                 </form>
+
+
+                <!-- Modal pour la réinitialisation du mot de passe -->
+
+                <div id="forgotmodal" class="modal-overlay">
+                    <div class="popup-content">
+                        <button type="button" class="close-forgot" id="close-forgot" aria-label="Fermer le formulaire">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                        <h2>Réinitialiser le mot de passe</h2>
+                        <p>Entrez les informations demandées pour recevoir un code.</p>
+
+                        <form id="forgot-form" class="forgot-form" action="#" method="post">
+                            <div class="input-box">
+                                <label for="forgot-agent">Nom de l'agent</label>
+                                <div class="input-field">
+                                    <input type="text" id="forgot-agent" name="forgot-agent" placeholder="Votre nom complet">
+                                    <span class="input-icon">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4 20.25a8 8 0 0 1 16 0"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <span class="error-message">Veuillez saisir votre nom.</span>
+                            </div>
+
+                            <div class="input-box">
+                                <label for="forgot-matricule">Matricule</label>
+                                <div class="input-field">
+                                    <input type="text" id="forgot-matricule" name="forgot-matricule" placeholder="ex: PN-2026-044">
+                                    <span class="input-icon">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 9h16"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <span class="error-message">Le matricule doit respecter le format PN-AAAA-XXX.</span>
+                            </div>
+
+                            <div class="input-box">
+                                <label for="forgot-email">Email professionnel</label>
+                                <div class="input-field">
+                                    <input type="email" id="forgot-email" name="forgot-email" placeholder="nom@commissariat.cg">
+                                    <span class="input-icon">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 12 13l9-5.5"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 5h15A1.5 1.5 0 0 1 21 6.5v11A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5v-11A1.5 1.5 0 0 1 4.5 5Z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <span class="error-message">Veuillez saisir un email valide.</span>
+                            </div>
+
+                            <button type="submit" class="login-btn forgot-submit-btn">Envoyer le code</button>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="login-footer">
                     Commissariat de Pointe-Noire - Accès réservé aux forces de l'ordre
@@ -107,12 +178,12 @@
 
                     <div class="image-slider">
                         <div class="slide-track">
-                            <div class="slide"><img src="../assets/images/1.jpg" alt=" slide 1"></div>
+                            <div class="slide"><img src="../assets/images/1.jpg" alt="slide 1"></div>
                             <div class="slide"><img src="../assets/images/2.jpg" alt=" slide 2"></div>
                             <div class="slide"><img src="../assets/images/3.jpg" alt=" slide 3"></div>
                             <div class="slide"><img src="../assets/images/4.jpg" alt=" 4"></div>
 
-                            <!-- repetition des iimages-->
+                            <!-- répétition des images -->
 
                             <div class="slide"><img src="../assets/images/1.jpg" alt=" 1 clone"></div>
                             <div class="slide"><img src="../assets/images/2.jpg" alt=" 2 clone"></div>

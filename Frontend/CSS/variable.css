@@ -1,59 +1,40 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Couleurs principales (Theme Bleu Police) */
+  
   --sp-blue-900: #042C53;
   --sp-blue-800: #0C447C;
   --sp-blue-600: #185FA5;
   --sp-blue-400: #378ADD;
   --sp-blue-100: #B5D4F4;
 
-  /* Couleurs pour les erreurs ,alertes */
+  /* Erreurs & Alertes */
   --sp-red-400: #E24B4A;
 
-  /* Couleurs Mode clair  */
+  /* Couleurs Thème Clair */
   --sp-bg-page: #F4F6F9;
   --sp-bg-surface: #FFFFFF;
 
-  /* Couleurs du texte */
+  /* Texte */
   --sp-text-primary: #0D1B2A;
   --sp-text-secondary: #5F5E5A;
+  --login-text: #0D1B2A;
+  --login-footer: #6B7280;
 
-  
-  --sp-font: 'Poppins', 'Segoe UI', sans-serif;
+  /* Utilitaires */
+  --sp-radius: 12px;
+  --sp-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --sp-border: 1px solid rgba(0, 0, 0, 0.1);
+  --sp-font: 'Poppins', sans-serif;
   --sp-transition: 0.25s ease;
 }
 
-/* Couleurs pour le mode sombre */
+/* Thème Sombre Désactivable */
 [data-theme="dark"] {
-  --sp-bg-page: #0E1420;
-  --sp-bg-surface: #1A2438;
-  --sp-text-primary: #C8D4E8;
-  --sp-text-secondary: #888780;
-}
-
-/* Un reset simple pour démarrer */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--sp-font);
-  background-color: var(--sp-bg-page);
-  color: var(--sp-text-primary);
-  line-height: 1.6;
-}
-
-a {
-  color: var(--sp-blue-400);
-  text-decoration: none;
-  transition: color var(--sp-transition);
-}
-
-a:hover {
-  color: var(--sp-blue-600);
+  --sp-bg-page: #0B1424;
+  --sp-bg-surface: #132239;
+  --sp-text-primary: #FFFFFF;
+  --sp-text-secondary: #A0AEC0;
+  --login-text: #FFFFFF;
+  --sp-border: 1px solid rgba(255, 255, 255, 0.1);
 }
