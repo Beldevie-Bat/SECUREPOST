@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const regles = {
         agent: (val) => val.length > 0,
-        matricule: (val) => /^PN-\d{4}-\d{3}$/.test(val),
+        matricule: (val) => /^PN-\d{4}-\d{2,3}$/.test(val),
         password: (val) => val.length >= 4,
         email: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
     };
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             const isAgentValid = validerChamp(agentInput, regles.agent);
             const isMatriculeValid = validerChamp(matriculeInput, regles.matricule);
             const isPasswordValid = validerChamp(passwordInput, regles.password);
@@ -78,7 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (firstError) firstError.focus();
             } else {
                 e.preventDefault();
-                window.location.href = 'Dashboard.html';
+                
+                const resultat = await connexion(
+                    matriculeInput.value,
+                    passwordInput.value
+                );
+                
+                if (resultat.erreur) {
+                    alert(resultat.message);
+                } else {
+                    localStorage.setItem('utilisateur', JSON.stringify(resultat.donnees.utilisateur));
+                    window.location.href = 'Dashboard.html';
+                }
             }
         });
     }
@@ -135,3 +146,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+async function connexion(matricule, motDePasse) {
+    try {
+        const reponse = await fetch('http://127.0.0.1:5000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                matricule: matricule,
+                password: motDePasse
+            })
+        });
+
+        const donnees = await reponse.json();
+
+        if (reponse.ok) {
+            return { erreur: false, donnees: donnees };
+        } else {
+            return { erreur: true, message: donnees.message || 'Identifiants incorrects' };
+        }
+
+    } catch (error) {
+        console.error('Erreur réseau :', error);
+        return { erreur: true, message: 'Le serveur est introuvable. Est-il bien démarré ?' };
+    }
+}

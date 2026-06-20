@@ -35,7 +35,7 @@ body {
     position: fixed;
     inset: 0;
     background: rgba(3, 10, 24, 0.72);
-    background-filter:blur(8px) ;
+    backdrop-filter: blur(8px) ;
     display: none;
     align-items: center;
     justify-content: center;

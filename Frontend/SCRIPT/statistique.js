@@ -1,96 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Graphique 1 -acte par quartier en CAMEMBER 
-    const ctxQuartiers = document.getElementById('infractionsChart').getContext('2d');
-    const infractionsChart = new Chart(ctxQuartiers, {
-        type: 'pie',
-        data: {
-            labels: ['Grand Marché', 'Tié-Tié', 'Mpaka', 'Vindoulou'],
-            datasets: [{
-                label: 'Nombre d\'actes',
-                data: [12, 19, 7, 5],
-                backgroundColor: ['#300a83', '#36a2eb', '#cc65fe', '#f5e507'],
-                borderWidth: 1,
-                borderColor: '#1e1e1e'
-            }]
+
+    
+    const estSombre = document.documentElement.getAttribute('data-theme') === 'dark';
+    const couleurTexte = estSombre ? '#ffffff' : '#6b7280';
+
+    
+    const optionsDonut = {
+        series: [12, 19, 7, 5], 
+        chart: {
+            type: 'donut',
+            height: 320,
+            fontFamily: 'Poppins, sans-serif'
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#333333'
-                    }
+        
+        colors: ['#042C53', '#36a2eb', '#B5D4F4', '#f1c40f'], 
+        labels: ['Grand Marché', 'Tié-Tié', 'Mpaka', 'Vindoulou'],
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '70%'
                 }
             }
-        }
-    });
-
-
-
-    // Graphique2-les urgences en bare en BARRES 
-    const ctxUrgences = document.getElementById('urgencesChart').getContext('2d');
-    const urgencesChart = new Chart(ctxUrgences, {
-        type: 'bar', 
-        data: {
-            labels: ['Faible', 'Moyenne', 'Haute'], 
-            datasets: [{
-                label: 'Nombre de cas',
-                data: [8, 20, 4], 
-                backgroundColor: [  '#2ecc71',  '#f1c40f', '#e74c3c' ],
-                borderWidth: 1,
-                borderColor: '#1e1e1e'
-            }]
         },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#333333',
-                        stepSize: 1 
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)' 
-                    }
-                },
-                x: {
-                    ticks: {
-                        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#333333'
-                    },
-                    grid: {
-                        display: false 
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false 
-                }
-            }
-        }
-    });
+        legend: {
+            position: 'bottom',
+            labels: { colors: couleurTexte }
+        },
+        stroke: { show: false }
+    };
 
-    // le theme
+    const donutChart = new ApexCharts(document.querySelector("#donut-chart"), optionsDonut);
+    donutChart.render();
+
+
+    
+    const optionsBarres = {
+        series: [{
+            name: 'Cas recensés',
+            data: [8, 20, 14] 
+        }],
+        chart: {
+            type: 'bar',
+            height: 300,
+            fontFamily: 'Poppins, sans-serif',
+            toolbar: { show: false }
+        },
+        colors: ['#2ecc71', '#f1c40f', '#e74c3c'], 
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                columnWidth: '50%'
+            }
+        },
+        xaxis: {
+            categories: ['Faible', 'Moyenne', 'Haute'],
+            labels: { style: { colors: couleurTexte } }
+        },
+        yaxis: {
+            labels: { style: { colors: couleurTexte } }
+        },
+        grid: {
+            borderColor: estSombre ? '#374151' : '#e5e7eb'
+        }
+    };
+
+    const barChart = new ApexCharts(document.querySelector("#bar-chart"), optionsBarres);
+    barChart.render();
+
+
+    
     const boutonTheme = document.getElementById('theme-toggle');
     if (boutonTheme) {
         boutonTheme.addEventListener('click', () => {
             setTimeout(() => {
-                const estSombre = document.documentElement.getAttribute('data-theme') === 'dark';
-                const couleurTexte = estSombre ? '#ffffff' : '#333333';
+                const nvSombre = document.documentElement.getAttribute('data-theme') === 'dark';
+                const nvCouleur = nvSombre ? '#ffffff' : '#6b7280';
+                const nvGrille = nvSombre ? '#374151' : '#e5e7eb';
 
-                // Graphique 1
-                infractionsChart.options.plugins.legend.labels.color = couleurTexte;
-                infractionsChart.update();
+                
+                donutChart.updateOptions({
+                    legend: { labels: { colors: nvCouleur } }
+                });
 
-                // Graphique 2
-                urgencesChart.options.scales.y.ticks.color = couleurTexte;
-                urgencesChart.options.scales.x.ticks.color = couleurTexte;
-                urgencesChart.update();
-            }, 50);
+                
+                barChart.updateOptions({
+                    xaxis: { labels: { style: { colors: nvCouleur } } },
+                    yaxis: { labels: { style: { colors: nvCouleur } } },
+                    grid: { borderColor: nvGrille }
+                });
+            }, 100);
         });
     }
-    
-    console.log("Statistiques de la BSU initialisées avec succès."); 
+
+    console.log("Statistiques de la BSU rafraîchies au format Flowbite.");
 });

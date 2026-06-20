@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SecurePost - Tableau de Bord</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
     <link rel="stylesheet" href="../CSS/variable.css">
     <link rel="stylesheet" href="../CSS/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,6 +15,7 @@
 <body>
 
     <div class="dashboard-container">
+        
         
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -22,22 +27,17 @@
             </div>
 
             <nav class="sidebar-menu">
-
-                <!--vue d'ensemble-->
                 <button data-target="overview" class="menu-btn active">
                     <i class="fa-solid fa-chart-pie"></i> Vue d'ensemble
                 </button>
-
-                 <!--actes-->
-
                 <button data-target="acts" class="menu-btn">
                     <i class="fa-solid fa-folder-open"></i> Registre des Actes
                 </button>
-
-
-                <!--audts-->
                 <button data-target="audit" class="menu-btn">
-                    <i class="fa-solid fa-user-shield"></i>Journal d'Audit
+                    <i class="fa-solid fa-user-shield"></i> Journal d'Audit
+                </button>
+                <button data-target="settings" class="menu-btn">
+                    <i class="fa-solid fa-cog"></i> Configuration
                 </button>
             </nav>
 
@@ -49,18 +49,20 @@
             </div>
         </aside>
 
+    
+
+
         <div class="main-content">
             
             <header class="top-navbar">
+                <button id="burger-menu-btn" class="burger-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
                 <div class="service-title">Brigade de Sûreté Urbaine</div>
                 <div class="user-profile">
-                    
-
                     <button id="theme-toggle" class="theme-btn" type="button">
                         <i class="fa-solid fa-sun" id="theme-icon"></i>
                     </button>
-
-
                     <div class="user-info">
                         <span class="user-name">BATANTOU Messie</span>
                         <span class="user-role">PN-2026-044</span>
@@ -73,9 +75,12 @@
 
             <main class="content-body">
 
+                
                 <div id="overview" class="tab-section">
-                    <h3>Vue d'ensemble de la Garde</h3>
-                    <div class="stats-grid">
+                    <h3 class="text-xl font-bold mb-4">Vue d'ensemble de la Garde</h3>
+                    
+                    
+                    <div class="stats-grid mb-6">
                         <div class="stat-card">
                             <h4>Plaintes (24h)</h4>
                             <p class="stat-number">12</p>
@@ -86,18 +91,51 @@
                         </div>
                     </div>
                     
-                    <div class="charts-row">
-                        <div class="stats-container">
-                            <h3>Répartition des Actes par Quartier</h3>
-                            <canvas id="infractionsChart"></canvas>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        
+                        
+                        <!--graphique en camembert-->
+                        <div class="w-full bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                            <div class="flex justify-between items-start w-full mb-3">
+                                <div class="flex flex-col items-center">
+                                    <div class="flex items-center mb-1">
+                                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">Actes par Quartier</h5>
+                                        
+                                        <svg class="w-3.5 h-3.5 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Répartition géographique de la criminalité</p>
+                                </div>
+                            </div>
+                            
+                            <div id="donut-chart" class="py-6"></div>
                         </div>
 
-                        <div class="stats-container">
-                            <h3><i class="fas fa-exclamation-triangle"></i> Niveau d'Urgence des Actes</h3>
-                            <canvas id="urgencesChart"></canvas>
+
+                        <!-- Graphique 2 Barres Verticales Flowbite -->
+                        <div class="w-full bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                            <div class="flex justify-between items-start w-full mb-4">
+                                <div>
+                                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white mb-1">Niveau d'Urgence</h5>
+                                    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Gravité des faits recensés</p>
+                                </div>
+                                <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-300 text-center">
+                                    <span>Stable</span>
+                                    <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div id="bar-chart"></div>
                         </div>
+
                     </div>
                 </div>
+
+                
                 <div id="acts" class="tab-section hidden">
                     <div class="section-header">
                         <h3>Registre Numérique des Actes</h3>
@@ -125,58 +163,75 @@
                                     <td><button class="star-btn active" title="Prioritaire">★</button></td>
                                     <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
-                                <tr>
-                                    <td class="acte-id">PN-2026-002</td>
-                                    <td><span class="badge badge-mc">Main Courante</span></td>
-                                    <td>Nuisances sonores église de réveil.</td>
-                                    <td>Mpaka</td>
-                                    <td><button class="star-btn" title="Non prioritaire">★</button></td>
-                                    <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
+            
                 <div id="audit" class="tab-section hidden">
                     <h3>Journal de Traçabilité (Audit Logs)</h3>
                     <div class="logs-box">
                         <div class="log-line green">
                             <strong>[10/06/2026 14:22]</strong> - L'officier BATANTOU M. a créé la plainte N° PN-2026-001.
                         </div>
-                        <div class="log-line blue">
-                            <strong>[10/06/2026 15:05]</strong> - L'officier BATANTOU M. a consulté le registre de Tié-Tié.
-                        </div>
                     </div>
                 </div>
 
+                <section id="settings" class="tab-section hidden">
+                    <div class="top-bar" style="margin-bottom: 25px;">
+                        <h1 style="font-size: 22px; font-weight: 600; color: var(--sp-text-primary);">Configuration & Profil</h1>
+                        <p style="color: var(--sp-text-secondary); font-size: 13px;">Gérer les informations de votre session de garde</p>
+                    </div>
+
+                    <div style="max-width: 500px; background: var(--sp-bg-surface); padding: 25px; border-radius: var(--sp-radius); box-shadow: var(--sp-shadow); border: var(--sp-border);">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--sp-blue-900);">Informations de l'Agent</h3>
+                        
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+                            <div style="width: 55px; height: 55px; background: var(--sp-blue-100); color: var(--sp-blue-900); display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; font-size: 18px;">
+                                BM
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 15px; font-weight: 600;" id="profile-agent-name">BATANTOU Messie</h4>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: var(--sp-text-secondary);" id="profile-agent-id">Matricule: PN-2026-044</p>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 15px; color: var(--sp-text-primary);">Options de l'application</h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <label style="font-size: 13px; font-weight: 500; display: block;">Notifications d'urgence</label>
+                                    <span style="font-size: 11px; color: var(--sp-text-secondary);">Alerter lors d'un nouvel acte à haute priorité</span>
+                                </div>
+                                <input type="checkbox" checked style="cursor: pointer;">
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <label style="font-size: 13px; font-weight: 500; display: block;">Persistance de session</label>
+                                    <span style="font-size: 11px; color: var(--sp-text-secondary);">Se souvenir du matricule au prochain démarrage</span>
+                                </div>
+                                <input type="checkbox" style="cursor: pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
             </main>
-
-
-
-            
         </div>
     </div>
 
-
-
-
-<!--formulaire nouvel acte-->
     
-
-
     <div id="acte-modal" class="modal hidden">
         <div class="modal-content">
-
-            
             <div class="modal-header">
                 <h3>Enregistrer un Nouvel Acte</h3>
                 <button id="close-modal-btn" class="close-btn">&times;</button>
             </div>
 
-
-            
+            <br>
             <form id="acte-form">
                 <div class="form-group">
                     <label for="type-acte">Type d'acte métiers</label>
@@ -185,7 +240,6 @@
                         <option value="Main Courante">Main Courante (Fait simple)</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="quartier-acte">Quartier (Pointe-Noire)</label>
                     <select id="quartier-acte" required>
@@ -196,7 +250,6 @@
                         <option value="Grand Marché">Grand Marché</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="urgence-acte">Niveau d'urgence</label>
                     <select id="urgence-acte">
@@ -205,12 +258,10 @@
                         <option value="Haute">Haute</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="desc-acte">Description des Faits</label>
                     <textarea id="desc-acte" rows="4" placeholder="Détaillez les faits constatés..." required></textarea>
                 </div>
-
                 <div class="form-actions">
                     <button type="submit" class="submit-form-btn">Inscrire au Registre</button>
                 </div>
@@ -218,7 +269,6 @@
         </div>
     </div>
 
-<!-- popup de confirmation pour supprimer -->
     <div id="confirm-delete-modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
@@ -239,9 +289,14 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../SCRIPT/statistique.js"></script>
 
+
+
+    
+
+    
+    <script src="../SCRIPT/api.js"></script>
+    <script src="../SCRIPT/statistique.js"></script>
     <script src="../SCRIPT/darkmode.js"></script>
     <script src="../SCRIPT/dash.js"></script>
 </body>

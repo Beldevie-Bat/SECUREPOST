@@ -1,10 +1,15 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import random 
 import psycopg2
 from psycopg2 import extras
 
+app = Flask(__name__)
+CORS(app)  
+
+
+
 def initialiser_connexion():
-    """
-    Établit la connexion avec la base de données PostgreSQL 'SECUREPOST'.
-    """
     try:
         conn = psycopg2.connect(
             host="localhost",
@@ -13,32 +18,12 @@ def initialiser_connexion():
             password="postgre",    
             port="5432"
         )
-        print("Connexion à la base de données SECUREPOST réussie !")
         return conn
     except Exception as error:
-        print("VRAI MESSAGE D'ERREUR INTERCEPTÉ ")
-        try:
-            
-            if hasattr(error, 'cursor') and error.cursor and error.cursor.statusmessage:
-                print(error.cursor.statusmessage)
-            elif hasattr(error, 'pgerror') and error.pgerror:
-                print(error.pgerror.encode('utf-8', errors='ignore').decode('cp1252', errors='ignore'))
-            else:
-                
-                for arg in error.args:
-                    if isinstance(arg, bytes):
-                        print(arg.decode('cp1252', errors='ignore'))
-                    elif isinstance(arg, str):
-                        print(arg.encode('utf-8', errors='ignore').decode('cp1252', errors='ignore'))
-        except Exception as e:
-            print("Impossible de décoder le texte, voici l'objet brut :", repr(error))
-        print("*****")
+        print("Erreur de connexion à la base de données :", error)
         return None
 
 def executer_requete(sql, params=None, fetch=False):
-    """
-    Fonction utilitaire pour exécuter des requêtes SQL facilement.
-    """
     conn = initialiser_connexion()
     if conn is None:
         return None
@@ -49,28 +34,45 @@ def executer_requete(sql, params=None, fetch=False):
             cur.execute(sql, params)
             if fetch:
                 resultat = cur.fetchall()
+            else:
+                resultat = True
             conn.commit()
     except Exception as error:
         print(f"Erreur d'exécution SQL : {error}")
         conn.rollback()
+        resultat = None
     finally:
         conn.close()
         
     return resultat
 
+def verifier_connexion_officier(matricule, mot_de_passe):
+    sql = """
+        SELECT id_user, nom, prenom, role, matricule, id_workspace, id_commissariat 
+        FROM public.users 
+        WHERE matricule = %s AND mot_de_passe = %s;
+    """
+    resultat = executer_requete(sql, (matricule, mot_de_passe), fetch=True)
+    if resultat:
+        return resultat[0] 
+    return None
 
-if __name__ == "__main__":
-    print("Test de la connexion...")
-    test = executer_requete("SELECT * FROM public.grades LIMIT 1;", fetch=True)
-    print("Résultat du test :", test)
+def ajouter_nouvel_acte(type_acte, description, quartier, urgence, id_user=1, id_workspace=1):
+    num_aleatoire = random.randint(1000, 9999)
+    numero_acte = f"PN-2026-{num_aleatoire}"
     
+    sql = """
+        INSERT INTO public.actes (numero_acte, type_acte, description, quartier, urgence, id_user, id_workspace)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        RETURNING numero_acte;
+    """
+    parametres = (numero_acte, type_acte, description, quartier, urgence, id_user, id_workspace)
+    resultat = executer_requete(sql, parametres, fetch=True)
+    if resultat:
+        return {'numero_acte': numero_acte}
+    return None
 
-# pour la recuperation des actes
 def recuperer_tous_les_actes():
-    """
-    Va chercher tous les actes enregistrés dans la base de données,
-    triés du plus récent au plus ancien.
-    """
     sql = """
         SELECT numero_acte, type_acte, description, date_faits, quartier, urgence, statut 
         FROM public.actes 
@@ -79,19 +81,46 @@ def recuperer_tous_les_actes():
     return executer_requete(sql, fetch=True)
 
 
-
-
-
-if __name__ == "__main__":
-    print("--- TEST : Récupération des données du Commissariat ---")
+@app.route('/api/login', methods=['POST'])
+def login():
+    donnees = request.json
+    matricule = donnees.get('matricule')
+    mot_de_passe = donnees.get('mot_de_passe')   
     
     
-    liste_actes = recuperer_tous_les_actes()
+    officier = verifier_connexion_officier(matricule, mot_de_passe)
     
-    print(f"\nNombre d'actes trouvés : {len(liste_actes) if liste_actes else 0}")
-    print("Détails des actes en base de données :")
-    if liste_actes:
-        for acte in liste_actes:
-            print(f"- [{acte['numero_acte']}] {acte['type_acte']} à {acte['quartier']} (Urgence: {acte['urgence']})")
+    if officier:
+        return jsonify({
+            "statut": "succes",
+            "message": "Connexion réussie",
+            "utilisateur": officier
+        }), 200
     else:
-        print("Aucun acte trouvé. Si tu as vidé ta base, réexécute ton fichier seed.sql avant.")
+        return jsonify({
+            "statut": "erreur",
+            "message": "Matricule ou mot de passe incorrect"
+        }), 401
+
+@app.route('/api/actes', methods=['GET'])
+def obtenir_actes():
+    liste = recuperer_tous_les_actes()
+    return jsonify(liste)
+
+@app.route('/api/actes', methods=['POST'])
+def creer_acte():
+    donnees = request.json
+    type_acte = donnees.get('type')
+    description = donnees.get('description')
+    quartier = donnees.get('quartier')
+    urgence = donnees.get('urgence')
+    
+    nouvel_acte = ajouter_nouvel_acte(type_acte, description, quartier, urgence)
+    
+    if nouvel_acte:
+        return jsonify({"statut": "succes", "message": "Acte enregistré", "acte": nouvel_acte}), 201
+    return jsonify({"statut": "erreur", "message": "Échec de l'insertion"}), 500
+
+if __name__ == '__main__':
+    
+    app.run(debug=True, port=5000)

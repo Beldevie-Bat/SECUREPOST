@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    
     const menuButtons = document.querySelectorAll('.menu-btn');
     const sections = document.querySelectorAll('.tab-section');
 
     menuButtons.forEach(button => {
         button.addEventListener('click', () => {
-
-
-            // Nettoyage des classes actives
             menuButtons.forEach(btn => btn.classList.remove('active'));
             sections.forEach(sec => sec.classList.add('hidden'));
 
-            
             button.classList.add('active');
             const target = button.getAttribute('data-target');
             const targetSection = document.getElementById(target);
@@ -22,136 +19,147 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    
+
     const hash = window.location.hash.replace('#', '');
     if (hash) {
         const targetBtn = document.querySelector(`[data-target="${hash}"]`);
-        if (targetBtn) {
-            targetBtn.click();
-        }
+        if (targetBtn) targetBtn.click();
     }
-    
-    
-    
 
+    
+    const burgerBtn = document.getElementById('burger-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (burgerBtn && sidebar) {
+        burgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('active-mobile');
+        });
+
+        
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && sidebar.classList.contains('active-mobile')) {
+                sidebar.classList.remove('active-mobile');
+            }
+        });
+    }
+
+    
     const modal = document.getElementById('acte-modal');
     const btnNouvelActe = document.querySelector('.add-btn');
     const btnFermerModal = document.getElementById('close-modal-btn');
     const formulaireActe = document.getElementById('acte-form');
     const tbody = document.getElementById('tableau-actes-body');
 
-    // Nouveaux éléments pour le popup suppression
+    if (btnNouvelActe && modal) {
+        btnNouvelActe.addEventListener('click', () => modal.classList.remove('hidden'));
+    }
+    if (btnFermerModal && modal) {
+        btnFermerModal.addEventListener('click', () => modal.classList.add('hidden'));
+    }
+
+    
     const confirmDeleteModal = document.getElementById('confirm-delete-modal');
     const closeConfirmModalBtn = document.getElementById('close-confirm-modal-btn');
     const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
     const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-    let rowToDelete = null; 
+    let rowToDelete = null;
 
     
-    if (btnNouvelActe && modal) {
-        btnNouvelActe.addEventListener('click', () => {
-            modal.classList.remove('hidden'); 
-        });
-    }
-
-    if (btnFermerModal && modal) {
-        btnFermerModal.addEventListener('click', () => {
-            modal.classList.add('hidden'); 
-        });
-    }
-
-    if (formulaireActe) {
-        formulaireActe.addEventListener('submit', (e) => {
-            e.preventDefault(); 
-
-            
-            const type = document.getElementById('type-acte').value;
-            const quartier = document.getElementById('quartier-acte').value;
-            const description = document.getElementById('desc-acte').value;
-            const urgence = document.getElementById('urgence-acte').value;
-            
-            
-            const numAffaire = `PN-2026-${Math.floor(Math.random() * 900) + 100}`;
-            const badgeClass = type === 'Plainte' ? 'badge-plainte' : 'badge-mc';
-
-            // nouvelle ligne
-            const nouvelleLigne = document.createElement('tr');
-            nouvelleLigne.className = 'nouvelle-ligne-animation'; 
-
-            nouvelleLigne.innerHTML = `
-                <td class="acte-id">${numAffaire}</td>
-                <td><span class="badge ${badgeClass}">${type}</span></td>
-                <td>${description}</td>
-                <td>${quartier}</td>
-                <td><button class="star-btn" title="Non prioritaire">★</button></td>
-                <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
-            `;
-
-            
-            tbody.insertBefore(nouvelleLigne, tbody.firstChild);
-
-            
-            const newStarBtn = nouvelleLigne.querySelector('.star-btn');
-            
-            
-            // bouton de suppression 
-            const newDeleteBtn = nouvelleLigne.querySelector('.delete-btn');
-            if (newDeleteBtn) {
-                newDeleteBtn.addEventListener('click', () => {
-                    rowToDelete = nouvelleLigne; 
-                    confirmDeleteModal.classList.remove('hidden'); 
-                });
-            }
-
-            
-            
-            formulaireActe.reset();
-            modal.classList.add('hidden');
-            console.log("Acte ajouté au registre.");
-        });
-    }
-
-
     if (tbody) {
         tbody.addEventListener('click', (e) => {
             
-            if (e.target.closest('.star-btn')) {
-                const starBtn = e.target.closest('.star-btn');
-                starBtn.classList.toggle('active'); 
+            const starBtn = e.target.closest('.star-btn');
+            if (starBtn) {
+                starBtn.classList.toggle('active');
                 starBtn.title = starBtn.classList.contains('active') ? 'Prioritaire' : 'Non prioritaire';
             }
             
-            if (e.target.closest('.delete-btn')) {
-                const deleteBtn = e.target.closest('.delete-btn');
-                rowToDelete = deleteBtn.closest('tr'); 
-                confirmDeleteModal.classList.remove('hidden'); 
+            
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                rowToDelete = deleteBtn.closest('tr');
+                if (confirmDeleteModal) confirmDeleteModal.classList.remove('hidden');
             }
         });
     }
 
     
-    if (closeConfirmModalBtn) {
-        closeConfirmModalBtn.addEventListener('click', () => {
-            confirmDeleteModal.classList.add('hidden');
-            rowToDelete = null; 
-        });
-    }
+    const fermerModalSuppression = () => {
+        if (confirmDeleteModal) confirmDeleteModal.classList.add('hidden');
+        rowToDelete = null;
+    };
 
-    if (cancelDeleteBtn) {
-        cancelDeleteBtn.addEventListener('click', () => {
-            confirmDeleteModal.classList.add('hidden');
-            rowToDelete = null; 
-        });
-    }
+    if (closeConfirmModalBtn) closeConfirmModalBtn.addEventListener('click', fermerModalSuppression);
+    if (cancelDeleteBtn) cancelDeleteBtn.addEventListener('click', fermerModalSuppression);
 
     if (confirmDeleteBtn) {
-        confirmDeleteBtn.addEventListener('click', () => {
+        confirmDeleteBtn.addEventListener('click', async () => {
             if (rowToDelete) {
-                rowToDelete.remove(); 
-                console.log("Acte supprimé après confirmation.");
+                const numeroActe = rowToDelete.querySelector('.acte-id').textContent;
+                const resultat = await supprimerActe(numeroActe);
+                
+                if (resultat.erreur) {
+                    alert(resultat.message);
+                } else {
+                    rowToDelete.remove();
+                    chargerActes();
+                }
             }
-            confirmDeleteModal.classList.add('hidden');
-            rowToDelete = null; 
+            fermerModalSuppression();
+        });
+    }
+
+    
+    async function chargerActes() {
+        const resultat = await recupererActes();
+        
+        if (!resultat.erreur && resultat.donnees) {
+            afficherActes(resultat.donnees);
+        }
+    }
+
+    function afficherActes(actes) {
+        if (!tbody) return;
+        
+        tbody.innerHTML = '';
+        
+        actes.forEach(acte => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="acte-id">${acte.numero_acte}</td>
+                <td><span class="badge badge-plainte">${acte.type_acte}</span></td>
+                <td>${acte.description}</td>
+                <td>${acte.quartier}</td>
+                <td><button class="star-btn" title="Prioritaire">★</button></td>
+                <td><button class="delete-btn" title="Supprimer l'acte"><i class="fa-solid fa-trash"></i></button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    
+    chargerActes();
+
+    
+    if (formulaireActe) {
+        formulaireActe.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const type = document.getElementById('type-acte').value;
+            const quartier = document.getElementById('quartier-acte').value;
+            const urgence = document.getElementById('urgence-acte').value;
+            const description = document.getElementById('desc-acte').value;
+            
+            const resultat = await creerActe(type, description, quartier, urgence);
+            
+            if (resultat.erreur) {
+                alert(resultat.message);
+            } else {
+                modal.classList.add('hidden');
+                formulaireActe.reset();
+                chargerActes();
+            }
         });
     }
 });

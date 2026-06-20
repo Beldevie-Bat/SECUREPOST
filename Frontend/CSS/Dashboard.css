@@ -5,7 +5,7 @@
     overflow: hidden;
 }
 
-/* SIDEBAR */
+
 .sidebar {
     width: 260px;
     background-color: #0b1424; 
@@ -104,7 +104,8 @@
 }
 
 
-/* CONTENU PRINCIPAL */
+
+
 .main-content {
     flex-grow: 1;
     display: flex;
@@ -113,7 +114,7 @@
     overflow: hidden;
 }
 
-/* navbar*/
+
 .top-navbar {
     height: 70px;
     border-bottom: 1px solid var(--sp-border);
@@ -213,6 +214,7 @@
     font-weight: 700;
     color: var(--sp-blue-600);
 }
+
 /*graphique en barre*/
 .charts-row {
     display: flex;
@@ -332,15 +334,7 @@ td {
     gap: 12px;
 }
 
-.log-line {
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    border-left: 4px solid #cbd5e1;
-}
 
-.log-line.green { border-left-color: #10b981; background-color: rgba(16, 185, 129, 0.05); }
-.log-line.blue { border-left-color: #3b82f6; background-color: rgba(59, 130, 246, 0.05); }
 
 /*  MODE SOMBRE et CLAIR */
 body {
@@ -425,7 +419,7 @@ body {
     display: none !important;
 }
 
-/* Alignement des éléments du formulaire */
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -449,7 +443,8 @@ body {
     font-size: 14px;
 }
 
-/* Bouton d'envoi */
+
+
 .submit-form-btn {
     background-color: var(--sp-blue-600);
     color: white;
@@ -486,3 +481,55 @@ body {
 .badge-urgence.haute { color: #e74c3c; font-weight: bold; }
 .badge-urgence.moyenne { color: #f1c40f; font-weight: bold; }
 .badge-urgence.faible { color: #2ecc71; font-weight: bold; }
+
+
+
+
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 9999;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 260px;
+    }
+
+    
+    .sidebar.active-mobile {
+        transform: translateX(0);
+    }
+
+    main {
+        padding: 16px !important;
+        overflow-y: auto;
+    }
+
+     
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .burger-btn {
+        display: block !important;
+        background: transparent;
+        border: none;
+        color: var(--sp-text-primary);
+        font-size: 24px;
+        cursor: pointer;
+        padding: 8px;
+    }
+}
+
+.burger-btn {
+    display: none;
+}
